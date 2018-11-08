@@ -18,7 +18,7 @@ public class Simulation {
 	public static boolean isRunning = false;  
 	
 	/** a speed factor for the clock to vary the speed of the clock in a simple way*/
-	public static int SPEEDFACTOR = 2;
+	public static int SPEEDFACTOR = 1;
 	
 	/**the beat or speed of the clock, e.g. 300 means one beat every 300 milli seconds*/
 	public static final int CLOCKBEAT = 300 * SPEEDFACTOR; 
