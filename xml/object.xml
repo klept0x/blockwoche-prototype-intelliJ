@@ -11,7 +11,6 @@
 			<station>Start_Station</station>
 			<station>Station_1</station>
 			<station>Station_2</station>
-			<station>Station_1</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -26,7 +25,6 @@
 			<station>Start_Station</station>
 			<station>Station_1</station>
 			<station>Station_2</station>
-			<station>Station_3</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -53,9 +51,8 @@
 		</view>
 		<sequence>
 			<station>Start_Station</station>
-			<station>Station_2</station>
 			<station>Station_1</station>
-			<station>Station_3</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -70,7 +67,6 @@
 			<station>Start_Station</station>
 			<station>Station_1</station>
 			<station>Station_2</station>
-			<station>Station_3</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -83,7 +79,7 @@
 		</view>
 		<sequence>
 			<station>Start_Station</station>
-			<station>Station_3</station>
+			<station>Station_1</station>
 			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
@@ -98,7 +94,7 @@
 		<sequence>
 			<station>Start_Station</station>
 			<station>Station_1</station>
-			<station>Station_3</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -112,6 +108,7 @@
 		<sequence>
 			<station>Start_Station</station>
 			<station>Station_1</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -126,7 +123,6 @@
 			<station>Start_Station</station>
 			<station>Station_1</station>
 			<station>Station_2</station>
-			<station>Station_1</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -141,7 +137,6 @@
 			<station>Start_Station</station>
 			<station>Station_1</station>
 			<station>Station_2</station>
-			<station>Station_1</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -154,7 +149,8 @@
 		</view>
 		<sequence>
 			<station>Start_Station</station>
-			<station>Station_3</station>
+			<station>Station_1</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -167,8 +163,8 @@
 		</view>
 		<sequence>
 			<station>Start_Station</station>
-			<station>Station_2</station>
 			<station>Station_1</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -182,7 +178,7 @@
 		<sequence>
 			<station>Start_Station</station>
 			<station>Station_1</station>
-			<station>Station_3</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -210,7 +206,7 @@
 		<sequence>
 			<station>Start_Station</station>
 			<station>Station_1</station>
-			<station>Station_3</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
@@ -224,7 +220,7 @@
 		<sequence>
 			<station>Start_Station</station>
 			<station>Station_1</station>
-			<station>Station_3</station>
+			<station>Station_2</station>
 			<station>End_Station</station>
 		</sequence>
 	</object>
