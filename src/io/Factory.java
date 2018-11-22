@@ -16,7 +16,6 @@ import org.jdom2.input.SAXBuilder;
 /**
  * This is an abstract factory that creates instances
  * of actor types like objects, stations and their queues
- * test
  * 
  * @author Jaeger, Schmidt
  * @version 2017-10-29
