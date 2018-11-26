@@ -131,14 +131,21 @@ public class Factory {
     		
     		//the <settings> ... </settings> node, this is the files root Element
     		Element root = theXMLDoc.getRootElement();
-    		
+
+
     		//get all the objects into a List object
     		List <Element> allObjects = root.getChildren("object");
     		
     		//separate every JDOM "object" Element from the list and create Java TheObject objects
     		for (Element theObject : allObjects) {
-    			
-    			// data variables:
+
+				//the <schleife> ... </schleife> node, this is the objects quantity
+				int schleife = 0;
+				schleife = Integer.parseInt(theObject.getChildText("schleife"));
+
+
+
+				// data variables:
     			String label = null;
     			int processtime = 0;
     			int speed = 0;
@@ -169,9 +176,10 @@ public class Factory {
         			
         		}
         	  		
-        		//creating a new TheObject object
-        		TheObject.create(label, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
-        		
+        		for(int i = 0; i < schleife; i++) {
+					//creating a new TheObject object
+					TheObject.create(label + "_" + i, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
+				}
 			}
     	
     	} catch (JDOMException e) {

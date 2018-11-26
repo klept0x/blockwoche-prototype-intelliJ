@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<settings>
+	<station>
+		<label>Station_1</label>
+		<troughput>2</troughput>
+		<x_position>348</x_position>
+		<y_position>154</y_position>
+		<view>
+			<image>station.png</image>
+		</view>
+		<inqueue>
+			<x_position>318</x_position>
+			<y_position>160</y_position>
+		</inqueue>
+		<outqueue>
+			<x_position>425</x_position>
+			<y_position>175</y_position>
+		</outqueue>
+	</station>
+	<station>
+		<label>Station_2</label>
+		<troughput>1</troughput>
+		<x_position>522</x_position>
+		<y_position>320</y_position>
+		<view>
+			<image>station.png</image>
+		</view>
+		<inqueue>
+			<x_position>492</x_position>
+			<y_position>326</y_position>
+		</inqueue>
+		<outqueue>
+			<x_position>599</x_position>
+			<y_position>341</y_position>
+		</outqueue>
+	</station>
+
+</settings>

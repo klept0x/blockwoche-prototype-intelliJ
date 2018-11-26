@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<settings>
+	<start_station>
+		<label>Start_Station</label>
+		<x_position>420</x_position>
+		<y_position>35</y_position>
+		<view>
+			<image>startstation.png</image>
+		</view>
+		<inqueue>
+			<x_position>385</x_position>
+			<y_position>53</y_position>
+		</inqueue>
+		<outqueue>
+			<x_position>497</x_position>
+			<y_position>53</y_position>
+		</outqueue>
+	</start_station>
+</settings>
