@@ -216,7 +216,7 @@
 	</object> -->
 	<object>
 		<label>Alex</label>
-		<schleife>100</schleife>
+		<schleife>1</schleife>
 		<processtime>2</processtime>
 		<speed>1</speed>
 		<view>
