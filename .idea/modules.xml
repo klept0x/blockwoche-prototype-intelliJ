@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Blockwoche_Mensa.iml" filepath="$PROJECT_DIR$/Blockwoche_Mensa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01blockwoche-prototype-intelliJ.iml" filepath="$PROJECT_DIR$/01blockwoche-prototype-intelliJ.iml" />
     </modules>
   </component>
 </project>

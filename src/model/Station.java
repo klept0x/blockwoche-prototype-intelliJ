@@ -41,7 +41,10 @@ public abstract class Station extends Actor {
 	protected boolean work() {
 		
 		//let the thread wait only if there are no objects in the incoming and outgoing queues
-		if (numberOfInQueueObjects() == 0 && numberOfOutQueueObjects() == 0) return false;
+		if (numberOfInQueueObjects() == 0 && numberOfOutQueueObjects() == 0){
+			increaseIdleTime();
+			return false;
+		}
 		
 		//If there is an inqueue object found, handle it
 		if (numberOfInQueueObjects() > 0) this.handleObject(this.getNextInQueueObject());
@@ -135,5 +138,7 @@ public abstract class Station extends Actor {
 	 * 
 	 */
 	public abstract ArrayList<SynchronizedQueue> getAllOutQueues();
+
+	protected abstract void increaseIdleTime();
 	
 }

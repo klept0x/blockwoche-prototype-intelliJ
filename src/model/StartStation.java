@@ -86,6 +86,10 @@ public class StartStation extends SimpleStation {
 		return null;
 	}
 
-	
-	
+	@Override
+	protected void increaseIdleTime() {
+
+	}
+
+
 }
