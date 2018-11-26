@@ -1,0 +1,25 @@
+{
+  "settings":[{
+    "end_station":[{
+      "label": "End_Station",
+      "x_Position":"420",
+      "y_Position":"440",
+      "view":[{
+       "image": "endstation.png"
+      }
+      ],
+      "inqueue":[{
+        "x_Position":"385",
+        "y_Position":"476"
+      }
+      ],
+      "outqueue":[{
+        "x_Position":"497",
+        "y_Position":"476"
+      }
+      ]
+    }
+    ]
+  }
+  ]
+}

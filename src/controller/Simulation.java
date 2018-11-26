@@ -1,10 +1,13 @@
 package controller;
 
+import io.FactoryJSON;
 import view.SimulationView;
 import io.Factory;
 import io.Statistics;
 import java.util.concurrent.atomic.AtomicLong;
 import model.Actor;
+
+import javax.swing.*;
 
 /**
  * The main class, controls the flow of the simulation
@@ -46,9 +49,21 @@ public class Simulation {
 	 * 
 	 */
 	private void init(){
-		
-		//create all stations and objects for the starting scenario out of XML
-		Factory.createStartScenario();
+
+		String[]option= {"XML","JSON"};
+		try {
+			int i = JOptionPane.showOptionDialog(null, "Aus welchen Dateityp soll ausgelesen werden", "Xml oder Json", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0]);
+			if (option[i].equals("XML")) {
+				//create all stations and objects for the starting scenario out of XML
+				Factory.createStartScenario();
+			} else if (option[i].equals("JSON")) {
+				//create all stations and objects for the starting scenario out of JSON
+				FactoryJSON.createStartScenario();
+			}
+		}catch(ArrayIndexOutOfBoundsException e){
+			// e.printStackTrace();
+			System.exit(0);
+		}
 				
 		//the view of our simulation
 		new SimulationView();
