@@ -188,6 +188,10 @@ public class ProcessStation extends Station {
 		}
 		
 	}
+
+	protected void increaseIdleTime(){
+		measurement.idleTime++;
+	}
 	
 	
 	/**
@@ -201,6 +205,8 @@ public class ProcessStation extends Station {
 		
 		/** the number of all objects that visited this station*/ 
 		private int numbOfVisitedObjects = 0;
+
+		private int idleTime = 0;
 		
 		
 		/**Get the average time for treatment
@@ -214,6 +220,8 @@ public class ProcessStation extends Station {
 			return inUseTime/numbOfVisitedObjects;
 			
 		}
+
+
 		
 	}
 	
@@ -228,7 +236,7 @@ public class ProcessStation extends Station {
 		theString = theString + "\nAnzahl der behandelten Objekte: " + measurement.numbOfVisitedObjects;
 		theString = theString + "\nZeit zum Behandeln aller Objekte: " + measurement.inUseTime;
 		theString = theString + "\nDurchnittliche Behandlungsdauer: " + measurement.avgTreatmentTime();
-		
+		theString=  theString + "\nZeit ohne Betrieb: "+measurement.idleTime;
 		Statistics.show(theString);
 		
 	}

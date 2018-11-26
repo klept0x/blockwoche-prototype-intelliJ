@@ -119,5 +119,10 @@ public class EndStation extends SimpleStation {
 		return null;
 	}
 
-	
+	@Override
+	protected void increaseIdleTime() {
+
+	}
+
+
 }
