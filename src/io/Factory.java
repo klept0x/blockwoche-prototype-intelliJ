@@ -23,16 +23,16 @@ import org.jdom2.input.SAXBuilder;
 public class Factory {
 	
 	/** the objects XML data file */
-	private static String theObjectDataFile = "xml/Burgertag/object.xml";
+	private static String theObjectDataFile;
 	
 	/** the stations XML data file */
-	private static String theStationDataFile = "xml/Burgertag/station.xml";
+	private static String theStationDataFile;
 	
 	/** the start station XML data file */
-	private static String theStartStationDataFile = "xml/Burgertag/startstation.xml";
+	private static String theStartStationDataFile;
 	
 	/** the end station XML data file */
-	private static String theEndStationDataFile = "xml/Burgertag/endstation.xml";
+	private static String theEndStationDataFile;
 	
 	/** the x position of the starting station, also position for all starting objects */
 	private static int XPOS_STARTSTATION;
@@ -336,5 +336,20 @@ public class Factory {
 				e.printStackTrace();
 		}
      }
-        
+
+	public static void setTheObjectDataFile(String theObjectDataFile) {
+		Factory.theObjectDataFile = theObjectDataFile;
+	}
+
+	public static void setTheStationDataFile(String theStationDataFile) {
+		Factory.theStationDataFile = theStationDataFile;
+	}
+
+	public static void setTheStartStationDataFile(String theStartStationDataFile) {
+		Factory.theStartStationDataFile = theStartStationDataFile;
+	}
+
+	public static void setTheEndStationDataFile(String theEndStationDataFile) {
+		Factory.theEndStationDataFile = theEndStationDataFile;
+	}
 }

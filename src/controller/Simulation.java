@@ -40,7 +40,7 @@ public class Simulation {
 
 	
 	
-	protected void startSimulation(){
+	public void startSimulation(){
 		this.xmlOderJson();
 		this.init();
 	}
@@ -203,7 +203,8 @@ public class Simulation {
 					
 					//Increase the global clock
 					clock.incrementAndGet();
-					
+
+
 					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
