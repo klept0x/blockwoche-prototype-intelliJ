@@ -4,6 +4,13 @@ import io.FactoryJSON;
 import view.SimulationView;
 import io.Factory;
 import io.Statistics;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicLong;
 import model.Actor;
 
@@ -28,42 +35,119 @@ public class Simulation {
 	
 	/**the global clock */
 	//the clock must be thread safe -> AtomicLong. The primitive type long isn't, even if synchronized
-	private static AtomicLong clock = new AtomicLong(0); 
+	private static AtomicLong clock = new AtomicLong(0);
+
+
 	
 	
-	/**
-	 * starts the simulation
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args){
-		
-		//a new simulation
-		Simulation theSimulation = new Simulation();
-		theSimulation.init();
-		
+	protected void startSimulation(){
+		this.xmlOderJson();
+		this.init();
 	}
-	
+
+
 	/**
-	 * initialize the simulation
-	 * 
+	 * Fragt nach und öffnet Fenster ob XML oder JSON benutzt werden soll
+	 *
 	 */
-	private void init(){
+	private void xmlOderJson(){
 
 		String[]option= {"XML","JSON"};
 		try {
 			int i = JOptionPane.showOptionDialog(null, "Aus welchen Dateityp soll ausgelesen werden", "Xml oder Json", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0]);
+
 			if (option[i].equals("XML")) {
+
+				welchesSzenarioXML();
+
 				//create all stations and objects for the starting scenario out of XML
 				Factory.createStartScenario();
-			} else if (option[i].equals("JSON")) {
+			}
+
+			else if (option[i].equals("JSON")) {
+
+				welchesSzenarioJSON();
+
 				//create all stations and objects for the starting scenario out of JSON
 				FactoryJSON.createStartScenario();
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
 			// e.printStackTrace();
 			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+	}
+
+
+	private void welchesSzenarioXML() throws IOException {
+		//ließt subdirectories
+		Path path = Paths.get("xml");
+		Statistics.show(path.toString());
+		path = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+		Statistics.show(path.toString());
+
+		File file = new File(String.valueOf(path));
+		String[]directories = file.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		});
+		//zeigt sie im fenster an
+
+		try {
+			int i = JOptionPane.showOptionDialog(null, "Welches Szenario?", "Szenarioauswahl", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, directories, directories[0]);
+
+			String xmlDateiEndung = ".xml";
+			//Statistics.show("xml/" + directories[i] + "/object");
+			Factory.setTheObjectDataFile("xml/" + directories[i] + "/object" + xmlDateiEndung);
+			Factory.setTheStartStationDataFile("xml/" + directories[i] + "/startstation" + xmlDateiEndung);
+			Factory.setTheStationDataFile("xml/" + directories[i] + "/station" + xmlDateiEndung);
+			Factory.setTheEndStationDataFile("xml/" + directories[i] + "/endstation" + xmlDateiEndung);
+		}catch(ArrayIndexOutOfBoundsException e){
+			// e.printStackTrace();
+			System.exit(0);
+		}
+
+	}
+
+	private void welchesSzenarioJSON() throws IOException {
+		//ließt subdirectories
+		Path path = Paths.get("json");
+		path = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+
+		File file = new File(String.valueOf(path));
+		String[]directories = file.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		});
+		//zeigt sie im fenster an
+
+		try {
+			int i = JOptionPane.showOptionDialog(null, "Welches Szenario?", "Szenarioauswahl", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, directories, directories[0]);
+			String dateiEndung = ".json";
+			//Statistics.show("json/" + directories[i] + "/object"+ dateiEndung);
+			FactoryJSON.setTheObjectDataFile("json/" + directories[i] + "/object" + dateiEndung);
+			FactoryJSON.setTheStartStationDataFile("json/" + directories[i] + "/startstation" + dateiEndung);
+			FactoryJSON.setTheStationDataFile("json/" + directories[i] + "/station" + dateiEndung);
+			FactoryJSON.setTheEndStationDataFile("json/" + directories[i] + "/endstation" + dateiEndung);
+		}catch(ArrayIndexOutOfBoundsException e){
+			// e.printStackTrace();
+			System.exit(0);
+		}
+
+	}
+
+
+	/**
+	 * initialize the simulation
+	 * 
+	 */
+	private void init(){
 				
 		//the view of our simulation
 		new SimulationView();
