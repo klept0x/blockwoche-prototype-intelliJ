@@ -341,5 +341,20 @@ public class FactoryJSON {
 		}
 		return theList;
 	}
-        
+
+	public static void setTheObjectDataFile(String theObjectDataFile) {
+		FactoryJSON.theObjectDataFile = theObjectDataFile;
+	}
+
+	public static void setTheStationDataFile(String theStationDataFile) {
+		FactoryJSON.theStationDataFile = theStationDataFile;
+	}
+
+	public static void setTheStartStationDataFile(String theStartStationDataFile) {
+		FactoryJSON.theStartStationDataFile = theStartStationDataFile;
+	}
+
+	public static void setTheEndStationDataFile(String theEndStationDataFile) {
+		FactoryJSON.theEndStationDataFile = theEndStationDataFile;
+	}
 }

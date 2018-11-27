@@ -1,7 +1,7 @@
 package controller;
 import java.io.IOException;
 
-public class Main extends Simulation{
+public class Main{
 
 
     /**
@@ -15,7 +15,7 @@ public class Main extends Simulation{
         //a new simulation
         Simulation theSimulation = new Simulation();
         theSimulation.startSimulation();
-        
+
 
 
     }

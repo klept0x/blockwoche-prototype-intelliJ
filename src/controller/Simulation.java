@@ -40,7 +40,7 @@ public class Simulation {
 
 	
 	
-	protected void startSimulation(){
+	public void startSimulation(){
 		this.xmlOderJson();
 		this.init();
 	}
@@ -117,6 +117,7 @@ public class Simulation {
 		//ließt subdirectories
 		Path path = Paths.get("json");
 		path = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+
 
 		File file = new File(String.valueOf(path));
 		String[]directories = file.list(new FilenameFilter() {
@@ -202,7 +203,8 @@ public class Simulation {
 					
 					//Increase the global clock
 					clock.incrementAndGet();
-					
+
+
 					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
