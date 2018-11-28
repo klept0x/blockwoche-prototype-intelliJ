@@ -1,13 +1,10 @@
 package io;
+import model.*;
 import view.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import model.EndStation;
-import model.ProcessStation;
-import model.StartStation;
-import model.SynchronizedQueue;
-import model.TheObject;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -122,7 +119,7 @@ public class Factory {
      * create some objects out of the XML file
      * 
      */
-     private static void createObjects(){
+     protected static void createObjects(){
     	
     	try {
 		
@@ -178,7 +175,7 @@ public class Factory {
         	  		
         		for(int i = 0; i < schleife; i++) {
 					//creating a new TheObject object
-					TheObject.create(label + "_" + i, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
+					Student.create(label + "_" + i, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
 				}
 			}
     	

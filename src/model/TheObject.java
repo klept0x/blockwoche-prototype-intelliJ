@@ -1,10 +1,8 @@
 package model;
 
 import io.Statistics;
-
 import java.awt.Component;
 import java.util.ArrayList;
-
 import view.TheObjectView;
 import controller.Simulation;
 
@@ -43,8 +41,8 @@ import controller.Simulation;
 		
 				
 		/** (private!) Constructor, creates a new object model and send it to the start station
-		 * 
-		 * @param label of the object 
+		 *
+		 * @param label of the object
 		 * @param stationsToGo the stations to go
 		 * @param processtime the processing time of the object, affects treatment by a station
 		 * @param speed the moving speed of the object
@@ -52,7 +50,7 @@ import controller.Simulation;
 		 * @param yPos y position of the object
 		 * @param image image of the object
 		 */
-		private TheObject(String label, ArrayList<String> stationsToGo, int processtime, int speed, int xPos, int yPos, String image){
+		protected TheObject(String label, ArrayList<String> stationsToGo, int processtime, int speed, int xPos, int yPos, String image){
 			super(label, xPos, yPos);
 			
 			//create the view
@@ -71,8 +69,8 @@ import controller.Simulation;
 			this.enterInQueue(station);
 						
 		}
-		
-		/** Create a new object model
+
+	    /** Create a new object model
 		 *
 		 * @param label of the object 
 		 * @param stationsToGo the stations to go
@@ -85,7 +83,7 @@ import controller.Simulation;
 		public static void create(String label, ArrayList<String> stationsToGo, int processtime, int speed ,int xPos, int yPos, String image){
 				
 			new TheObject(label, stationsToGo, processtime, speed, xPos, yPos, image);
-				
+
 		}
 					
 		/** Chose the next station to go to

@@ -4,7 +4,6 @@ import io.FactoryJSON;
 import view.SimulationView;
 import io.Factory;
 import io.Statistics;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -13,13 +12,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicLong;
 import model.Actor;
-
 import javax.swing.*;
+import static model.Actor.getAllActors;
 
 /**
  * The main class, controls the flow of the simulation
  * 
- * @author Jaeger, Schmidt
+ * @author Jaeger, Schmidt modified by Gruppe 5
  * @version 2016-07-07
  */
 public class Simulation {
@@ -38,16 +37,24 @@ public class Simulation {
 	private static AtomicLong clock = new AtomicLong(0);
 
 
-	
-	
-	public void startSimulation(){
-		this.xmlOderJson();
-		this.init();
+	/**
+	 * create a Simulation object and starts the "XML or JSON" query,
+	 * after the query the simulation starts	 *
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) throws IOException {
+
+		//a new simulation
+		Simulation theSimulation = new Simulation();
+		theSimulation.xmlOderJson();
+		theSimulation.init();
+
 	}
 
 
 	/**
-	 * Fragt nach und öffnet Fenster ob XML oder JSON benutzt werden soll
+	 * Show's a pop up messages where you can decide if you want to choose XML Files or JSON Files
 	 *
 	 */
 	private void xmlOderJson(){
@@ -57,7 +64,7 @@ public class Simulation {
 			int i = JOptionPane.showOptionDialog(null, "Aus welchen Dateityp soll ausgelesen werden", "Xml oder Json", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0]);
 
 			if (option[i].equals("XML")) {
-
+				//method "welchesSzenarioXML" searches in the xml folder after "Szenarien" and returns them
 				welchesSzenarioXML();
 
 				//create all stations and objects for the starting scenario out of XML
@@ -65,7 +72,7 @@ public class Simulation {
 			}
 
 			else if (option[i].equals("JSON")) {
-
+				//method "welchesSzenarioJSON" searches in the json folder after "Szenarien" and returns them
 				welchesSzenarioJSON();
 
 				//create all stations and objects for the starting scenario out of JSON
@@ -80,7 +87,11 @@ public class Simulation {
 
 	}
 
-
+	/**
+	 * Display's the different XML-"Szenarien" in a pop up message and let the user choose which he wants to execute
+	 *
+	 * @throws IOException
+	 */
 	private void welchesSzenarioXML() throws IOException {
 		//ließt subdirectories
 		Path path = Paths.get("xml");
@@ -90,6 +101,12 @@ public class Simulation {
 
 		File file = new File(String.valueOf(path));
 		String[]directories = file.list(new FilenameFilter() {
+			/**
+			 *
+			 * @param current
+			 * @param name
+			 * @return
+			 */
 			@Override
 			public boolean accept(File current, String name) {
 				return new File(current, name).isDirectory();
@@ -113,6 +130,11 @@ public class Simulation {
 
 	}
 
+	/**
+	 * Display's the different JSON-"Szenarien" in a pop up message and let the user choose which he wants to execute
+	 *
+	 * @throws IOException
+	 */
 	private void welchesSzenarioJSON() throws IOException {
 		//ließt subdirectories
 		Path path = Paths.get("json");
@@ -159,7 +181,7 @@ public class Simulation {
 		Statistics.show("---- Simulation gestartet ---\n");
 				
 		// start all the actor threads
-		for (Actor actor : Actor.getAllActors()) {
+		for (Actor actor : getAllActors()) {
 			actor.start();		
 						
 		}
@@ -203,8 +225,6 @@ public class Simulation {
 					
 					//Increase the global clock
 					clock.incrementAndGet();
-
-
 					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
