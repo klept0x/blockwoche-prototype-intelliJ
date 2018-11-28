@@ -21,22 +21,22 @@ import controller.Simulation;
 		public TheObjectView theView;
 		
 		/** the process time of the object*/
-		private int processTime;
+		protected int processTime;
 		
 		/** the speed of the object, the higher the lower */
-		private int mySpeed;
+		protected int mySpeed;
 				
 		/** all the station (labels) where the object have to go to*/
-		private ArrayList<String> stationsToGo = new ArrayList<String>();
+		protected ArrayList<String> stationsToGo = new ArrayList<String>();
 		
 		/** a pointer to the actual position of the stationsToGo list, start position is 0*/ 
-		private int stationListPointer = 0;
+		protected int stationListPointer = 0;
 		 				
 		/** list of all objects */
-		private static ArrayList<TheObject> allObjects = new ArrayList<TheObject>();
+		protected static ArrayList<TheObject> allObjects = new ArrayList<TheObject>();
 		
 		/** the actual station where this object is in, null if it's not in a station or a stations queue */
-		private Station actualStation = null;
+		protected Station actualStation = null;
 		
 		/** the instance of our static inner Measurement class*/ 
 		Measurement measurement = new Measurement();
@@ -52,7 +52,7 @@ import controller.Simulation;
 		 * @param yPos y position of the object
 		 * @param image image of the object
 		 */
-		private TheObject(String label, ArrayList<String> stationsToGo, int processtime, int speed, int xPos, int yPos, String image){
+		protected TheObject(String label, ArrayList<String> stationsToGo, int processtime, int speed, int xPos, int yPos, String image){
 			super(label, xPos, yPos);
 			
 			//create the view
