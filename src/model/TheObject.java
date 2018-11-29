@@ -1,3 +1,4 @@
+
 package model;
 
 import io.Statistics;
@@ -295,4 +296,3 @@ public class TheObject extends Actor {
     }
 
 }
-	
