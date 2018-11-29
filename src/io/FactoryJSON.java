@@ -1,10 +1,6 @@
 package io;
 
 import model.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import view.QueueViewJPanel;
@@ -16,8 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * This is an abstract factory that creates instances

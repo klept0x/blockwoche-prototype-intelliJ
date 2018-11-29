@@ -1,65 +1,25 @@
 package io;
 
 import model.*;
-import view.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import view.QueueViewJPanel;
+import view.QueueViewText;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
 /**
- * This is an abstract factory that creates instances
- * of actor types like objects, stations and their queues
- * Modified by Team 5:
- * Data-fields and createStartStation(), createObjects(), createProcessStations(), createEndStation() were set to protected,
- * because FactoryXML inherits from Factory.
- * Setter-Methods for following data-fields : theObjectDataFile, theStationDataFile, theStartStationDataFile, theEndStationDataFile
+ * The class FactoryXML extends the class Factory.
  *
- * @author Jaeger, Schmidt modified by Team 5
- * @version 2017-10-29
+ * @author Team5
+ * @version 1
  */
-public class Factory {
 
-    /**
-     * the objects XML data file
-     * modified - data field was private is now protected
-     */
-    protected static String theObjectDataFile;
-
-    /**
-     * the stations XML data file
-     * modified - data field was private is now protected
-     */
-    protected static String theStationDataFile;
-
-    /**
-     * the start station XML data file
-     * modified - data field was private is now protected
-     */
-    protected static String theStartStationDataFile;
-
-    /**
-     * the end station XML data file
-     * modified - data field was private is now protected
-     */
-    protected static String theEndStationDataFile;
-
-    /**
-     * the x position of the starting station, also position for all starting objects
-     * modified - data field was private is now protected
-     */
-    protected static int XPOS_STARTSTATION;
-
-    /**
-     * the y position of the starting station, also position for all starting objects
-     * modified - data field was private is now protected
-     */
-    protected static int YPOS_STARTSTATION;
+public class FactoryXML extends Factory {
 
 
     /**
@@ -75,6 +35,173 @@ public class Factory {
         createProcessStations();
         createEndStation();
     }
+
+    /**
+     * create some objects out of the XML file
+     */
+    protected static void createObjects() {
+
+        try {
+
+            //read the information from the XML file into a JDOM Document
+            Document theXMLDoc = new SAXBuilder().build(Factory.theObjectDataFile);
+
+            //the <settings> ... </settings> node, this is the files root Element
+            Element root = theXMLDoc.getRootElement();
+
+
+            //get all the objects into a List object
+            List<Element> allObjects = root.getChildren("object");
+
+            Statistics.show("--------------------Studenten werden jetzt erzeugt-------------------------\n");
+
+            //separate every JDOM "object" Element from the list and create Java TheObject objects
+            for (Element theObject : allObjects) {
+
+
+                // data variables:
+                String label = null;
+                int schleife = 1;
+                int processtime = 0;
+                int speed = 0;
+                String image = null;
+
+
+                // read data
+                label = theObject.getChildText("label");
+                //the <schleife> ... </schleife> node, this is the objects quantity
+                schleife = Integer.parseInt(theObject.getChildText("schleife"));
+                //
+
+                processtime = Integer.parseInt(theObject.getChildText("processtime"));
+                speed = Integer.parseInt(theObject.getChildText("speed"));
+
+                //the <view> ... </view> node
+                Element viewGroup = theObject.getChild("view");
+                // read data
+                image = viewGroup.getChildText("image");
+
+                //get all the stations, where the object wants to go to
+                //the <sequence> ... </sequence> node
+                Element sequenceGroup = theObject.getChild("sequence");
+
+                List<Element> allStations = sequenceGroup.getChildren("station");
+
+                //get the elements into a list
+                ArrayList<String> stationsToGo = new ArrayList<String>();
+
+                for (Element theStation : allStations) {
+
+                    stationsToGo.add(theStation.getText());
+
+                }
+
+
+
+                //creates multiple objects
+                //in the XML-file is an extra tag <schleife></schleife>, so that one object in the XML-file can be multiplied
+                for (int i = 0; i < schleife; i++) {
+                    //creating a new TheObject object
+                    Student.create(label + "_" + i, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
+                    Statistics.show(label +" Student wurde erzeugt" + i);
+                }
+            }
+
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * create some process stations out of the XML file
+     */
+    protected static void createProcessStations() {
+
+        try {
+
+            //read the information from the XML file into a JDOM Document
+            Document theXMLDoc = new SAXBuilder().build(theStationDataFile);
+
+            //the <settings> ... </settings> node
+            Element root = theXMLDoc.getRootElement();
+
+            //get all the stations into a List object
+            List<Element> stations = root.getChildren("station");
+
+            //separate every JDOM "station" Element from the list and create Java Station objects
+            for (Element station : stations) {
+
+                // data variables:
+                String label = null;
+                double troughPut = 0;
+                int xPos = 0;
+                int yPos = 0;
+                String image = null;
+                double preis = 0.0;
+
+                // read data
+                label = station.getChildText("label");
+                troughPut = Double.parseDouble(station.getChildText("troughput"));
+                xPos = Integer.parseInt(station.getChildText("x_position"));
+                yPos = Integer.parseInt(station.getChildText("y_position"));
+                // the price
+                preis = Double.parseDouble(station.getChildText("preis"));
+
+                //the <view> ... </view> node
+                Element viewGroup = station.getChild("view");
+                // read data
+                image = viewGroup.getChildText("image");
+
+                //CREATE THE INQUEUES
+
+                //get all the inqueues into a List object
+                List<Element> inqueues = station.getChildren("inqueue");
+
+                //create a list of the stations inqueues
+                ArrayList<SynchronizedQueue> theInqueues = new ArrayList<SynchronizedQueue>(); //ArrayList for the created inqueues
+
+                for (Element inqueue : inqueues) {
+
+                    int xPosInQueue = Integer.parseInt(inqueue.getChildText("x_position"));
+                    int yPosInQueue = Integer.parseInt(inqueue.getChildText("y_position"));
+
+                    //create the actual inqueue an add it to the list
+                    theInqueues.add(SynchronizedQueue.createQueue(QueueViewJPanel.class, xPosInQueue, yPosInQueue));
+                }
+
+                //CREATE THE OUTQUEUES
+
+                //get all the outqueues into a List object
+                List<Element> outqueues = station.getChildren("outqueue");
+
+                //create a list of the stations outqueues
+                ArrayList<SynchronizedQueue> theOutqueues = new ArrayList<SynchronizedQueue>(); //ArrayList for the created outqueues
+
+                for (Element outqueue : outqueues) {
+
+                    int xPosOutQueue = Integer.parseInt(outqueue.getChildText("x_position"));
+                    int yPosOutQueue = Integer.parseInt(outqueue.getChildText("y_position"));
+
+                    //create the actual outqueue an add it to the list
+                    theOutqueues.add(SynchronizedQueue.createQueue(QueueViewText.class, xPosOutQueue, yPosOutQueue));
+                }
+
+                //creating a new Station object
+                MensaStationen.create(label, theInqueues, theOutqueues, troughPut, xPos, yPos, image, preis);
+
+            }
+
+
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     /**
      * create the start station
@@ -129,7 +256,7 @@ public class Factory {
             SynchronizedQueue theOutQueue = SynchronizedQueue.createQueue(QueueViewText.class, xPosOutQueue, yPosOutQueue);
 
             //creating a new StartStation object
-            StartStation.create(label, theInQueue, theOutQueue, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
+            MensaEntrance.create(label, theInQueue, theOutQueue, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
 
 
         } catch (JDOMException e) {
@@ -139,249 +266,4 @@ public class Factory {
         }
     }
 
-    /**
-     * create some objects out of the XML file
-     *
-     */
-    protected static void createObjects(){
-
-        try {
-
-            //read the information from the XML file into a JDOM Document
-            Document theXMLDoc = new SAXBuilder().build(theObjectDataFile);
-
-            //the <settings> ... </settings> node, this is the files root Element
-            Element root = theXMLDoc.getRootElement();
-
-            //get all the objects into a List object
-            List <Element> allObjects = root.getChildren("object");
-
-            //separate every JDOM "object" Element from the list and create Java TheObject objects
-            for (Element theObject : allObjects) {
-
-                // data variables:
-                String label = null;
-                int processtime = 0;
-                int speed = 0;
-                String image = null;
-
-                // read data
-                label = theObject.getChildText("label");
-                processtime = Integer.parseInt(theObject.getChildText("processtime"));
-                speed = Integer.parseInt(theObject.getChildText("speed"));
-
-                //the <view> ... </view> node
-                Element viewGroup = theObject.getChild("view");
-                // read data
-                image = viewGroup.getChildText("image");
-
-                //get all the stations, where the object wants to go to
-                //the <sequence> ... </sequence> node
-                Element sequenceGroup = theObject.getChild("sequence");
-
-                List <Element> allStations = sequenceGroup.getChildren("station");
-
-                //get the elements into a list
-                ArrayList<String> stationsToGo = new ArrayList<String>();
-
-                for (Element theStation : allStations) {
-
-                    stationsToGo.add(theStation.getText());
-
-                }
-
-                //creating a new TheObject object
-                TheObject.create(label, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
-                Statistics.show("TheObject wurde erzeugt");
-
-            }
-
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * create some process stations out of the XML file
-     */
-    protected static void createProcessStations() {
-
-        try {
-
-            //read the information from the XML file into a JDOM Document
-            Document theXMLDoc = new SAXBuilder().build(theStationDataFile);
-
-            //the <settings> ... </settings> node
-            Element root = theXMLDoc.getRootElement();
-
-            //get all the stations into a List object
-            List<Element> stations = root.getChildren("station");
-
-            //separate every JDOM "station" Element from the list and create Java Station objects
-            for (Element station : stations) {
-
-                // data variables:
-                String label = null;
-                double troughPut = 0;
-                int xPos = 0;
-                int yPos = 0;
-                String image = null;
-
-                // read data
-                label = station.getChildText("label");
-                troughPut = Double.parseDouble(station.getChildText("troughput"));
-                xPos = Integer.parseInt(station.getChildText("x_position"));
-                yPos = Integer.parseInt(station.getChildText("y_position"));
-
-                //the <view> ... </view> node
-                Element viewGroup = station.getChild("view");
-                // read data
-                image = viewGroup.getChildText("image");
-
-                //CREATE THE INQUEUES
-
-                //get all the inqueues into a List object
-                List<Element> inqueues = station.getChildren("inqueue");
-
-                //create a list of the stations inqueues
-                ArrayList<SynchronizedQueue> theInqueues = new ArrayList<SynchronizedQueue>(); //ArrayList for the created inqueues
-
-                for (Element inqueue : inqueues) {
-
-                    int xPosInQueue = Integer.parseInt(inqueue.getChildText("x_position"));
-                    int yPosInQueue = Integer.parseInt(inqueue.getChildText("y_position"));
-
-                    //create the actual inqueue an add it to the list
-                    theInqueues.add(SynchronizedQueue.createQueue(QueueViewJPanel.class, xPosInQueue, yPosInQueue));
-                }
-
-                //CREATE THE OUTQUEUES
-
-                //get all the outqueues into a List object
-                List<Element> outqueues = station.getChildren("outqueue");
-
-                //create a list of the stations outqueues
-                ArrayList<SynchronizedQueue> theOutqueues = new ArrayList<SynchronizedQueue>(); //ArrayList for the created outqueues
-
-                for (Element outqueue : outqueues) {
-
-                    int xPosOutQueue = Integer.parseInt(outqueue.getChildText("x_position"));
-                    int yPosOutQueue = Integer.parseInt(outqueue.getChildText("y_position"));
-
-                    //create the actual outqueue an add it to the list
-                    theOutqueues.add(SynchronizedQueue.createQueue(QueueViewText.class, xPosOutQueue, yPosOutQueue));
-                }
-
-                //creating a new Station object
-                ProcessStation.create(label, theInqueues, theOutqueues, troughPut, xPos, yPos, image);
-
-            }
-
-
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * create the end station
-     */
-    protected static void createEndStation() {
-
-        try {
-
-            //read the information from the XML file into a JDOM Document
-            Document theXMLDoc = new SAXBuilder().build(theEndStationDataFile);
-
-            //the <settings> ... </settings> node
-            Element root = theXMLDoc.getRootElement();
-
-            //get the end_station into a List object
-            Element endStation = root.getChild("end_station");
-
-            //get label
-            String label = endStation.getChildText("label");
-
-            //position
-            int xPos = Integer.parseInt(endStation.getChildText("x_position"));
-            int yPos = Integer.parseInt(endStation.getChildText("y_position"));
-
-            //the <view> ... </view> node
-            Element viewGroup = endStation.getChild("view");
-            // the image
-            String image = viewGroup.getChildText("image");
-
-            //CREATE THE INQUEUE
-            //the <inqueue> ... </inqueue> node
-            Element inqueueGroup = endStation.getChild("inqueue");
-
-            // the positions
-            int xPosInQueue = Integer.parseInt(inqueueGroup.getChildText("x_position"));
-            int yPosInQueue = Integer.parseInt(inqueueGroup.getChildText("y_position"));
-
-            //create the inqueue
-            SynchronizedQueue theInQueue = SynchronizedQueue.createQueue(QueueViewText.class, xPosInQueue, yPosInQueue);
-
-            //CREATE THE OUTQUEUE
-            //the <outqueue> ... </outqueue> node
-            Element outqueueGroup = endStation.getChild("outqueue");
-
-            // the positions
-            int xPosOutQueue = Integer.parseInt(outqueueGroup.getChildText("x_position"));
-            int yPosOutQueue = Integer.parseInt(outqueueGroup.getChildText("y_position"));
-
-            //create the outqueue
-            SynchronizedQueue theOutQueue = SynchronizedQueue.createQueue(QueueViewText.class, xPosOutQueue, yPosOutQueue);
-
-            //creating a new EndStation object
-            EndStation.create(label, theInQueue, theOutQueue, xPos, yPos, image);
-
-
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * setter for theObjectDataFile
-     *
-     * @param theObjectDataFile the objects XML data file
-     */
-    public static void setTheObjectDataFile(String theObjectDataFile) {
-        Factory.theObjectDataFile = theObjectDataFile;
-    }
-
-    /**
-     * setter for theStationDataFile
-     *
-     * @param theStationDataFile the station XML data file
-     */
-    public static void setTheStationDataFile(String theStationDataFile) {
-        Factory.theStationDataFile = theStationDataFile;
-    }
-
-    /**
-     * setter for theStartStationDataFile
-     *
-     * @param theStartStationDataFile the start-station XML data file
-     */
-    public static void setTheStartStationDataFile(String theStartStationDataFile) {
-        Factory.theStartStationDataFile = theStartStationDataFile;
-    }
-
-    /**
-     * setter for theEndStationDataFile
-     *
-     * @param theEndStationDataFile the end-station XML data file
-     */
-    public static void setTheEndStationDataFile(String theEndStationDataFile) {
-        Factory.theEndStationDataFile = theEndStationDataFile;
-    }
 }
