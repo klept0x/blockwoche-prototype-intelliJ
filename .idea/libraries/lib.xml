@@ -2,8 +2,8 @@
   <library name="lib">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/jdom/lib/jaxen-1.1.6.jar!/" />
-      <root url="jar://$PROJECT_DIR$/jdom/lib/xml-apis.jar!/" />
       <root url="jar://$PROJECT_DIR$/jdom/lib/xercesImpl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jdom/lib/xml-apis.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
