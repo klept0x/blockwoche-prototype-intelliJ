@@ -22,6 +22,7 @@ import static model.Actor.getAllActors;
 
 /**
  * The main class, controls the flow of the simulation
+ * anderung
  *
  * @author Jaeger, Schmidt modified by Gruppe 5
  * @version 2016-07-07
