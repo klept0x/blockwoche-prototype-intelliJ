@@ -2,7 +2,7 @@
   "settings":[{
     "object":[{
       "label": "Object_1",
-      "schleife":"20",
+      "schleife":"2",
       "processtime":"10",
       "speed":"10",
       "view":[{
@@ -18,7 +18,7 @@
     },{
       "label": "Object_2",
       "processtime":"10",
-      "schleife":"111",
+      "schleife":"1",
       "speed":"10",
       "view":[{
         "image": "hamburger.png"
