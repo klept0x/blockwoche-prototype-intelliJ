@@ -1,4 +1,3 @@
-
 package model;
 
 import io.Statistics;
@@ -292,4 +291,4 @@ import controller.Simulation;
 		}
 		
 	}
-
+	
