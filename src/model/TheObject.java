@@ -1,10 +1,9 @@
+
 package model;
 
 import io.Statistics;
-
 import java.awt.Component;
 import java.util.ArrayList;
-
 import view.TheObjectView;
 import controller.Simulation;
 
@@ -21,30 +20,30 @@ import controller.Simulation;
 		public TheObjectView theView;
 		
 		/** the process time of the object*/
-		protected int processTime;
+		private int processTime;
 		
 		/** the speed of the object, the higher the lower */
-		protected int mySpeed;
+		private int mySpeed;
 				
 		/** all the station (labels) where the object have to go to*/
-		protected ArrayList<String> stationsToGo = new ArrayList<String>();
+		private ArrayList<String> stationsToGo = new ArrayList<String>();
 		
 		/** a pointer to the actual position of the stationsToGo list, start position is 0*/ 
-		protected int stationListPointer = 0;
+		private int stationListPointer = 0;
 		 				
 		/** list of all objects */
-		protected static ArrayList<TheObject> allObjects = new ArrayList<TheObject>();
+		private static ArrayList<TheObject> allObjects = new ArrayList<TheObject>();
 		
 		/** the actual station where this object is in, null if it's not in a station or a stations queue */
-		protected Station actualStation = null;
+		private Station actualStation = null;
 		
 		/** the instance of our static inner Measurement class*/ 
 		Measurement measurement = new Measurement();
 		
 				
 		/** (private!) Constructor, creates a new object model and send it to the start station
-		 * 
-		 * @param label of the object 
+		 *
+		 * @param label of the object
 		 * @param stationsToGo the stations to go
 		 * @param processtime the processing time of the object, affects treatment by a station
 		 * @param speed the moving speed of the object
@@ -71,8 +70,8 @@ import controller.Simulation;
 			this.enterInQueue(station);
 						
 		}
-		
-		/** Create a new object model
+
+	    /** Create a new object model
 		 *
 		 * @param label of the object 
 		 * @param stationsToGo the stations to go
@@ -85,7 +84,7 @@ import controller.Simulation;
 		public static void create(String label, ArrayList<String> stationsToGo, int processtime, int speed ,int xPos, int yPos, String image){
 				
 			new TheObject(label, stationsToGo, processtime, speed, xPos, yPos, image);
-				
+
 		}
 					
 		/** Chose the next station to go to
@@ -293,4 +292,4 @@ import controller.Simulation;
 		}
 		
 	}
-	
+

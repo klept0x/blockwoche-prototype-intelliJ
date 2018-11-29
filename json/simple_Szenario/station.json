@@ -1,0 +1,45 @@
+{
+  "settings":[{
+    "station":[{
+      "label": "Station_1",
+      "troughput":"2",
+      "x_Position":"348",
+      "y_Position":"154",
+      "view":[{
+       "image": "essensausgabe.png"
+      }
+      ],
+      "inqueue":[{
+        "x_Position":"318",
+        "y_Position":"160"
+      }
+      ],
+      "outqueue":[{
+        "x_Position":"425",
+        "y_Position":"175"
+      }
+      ]
+    },{
+      "label": "Station_2",
+      "troughput":"1",
+      "x_Position":"522",
+      "y_Position":"320",
+      "view":[{
+        "image": "kasse.png"
+      }
+      ],
+      "inqueue":[{
+        "x_Position":"492",
+        "y_Position":"326"
+      }
+      ],
+      "outqueue":[{
+        "x_Position":"599",
+        "y_Position":"341"
+      }
+      ]
+      }
+    ]
+  }
+  ]
+}

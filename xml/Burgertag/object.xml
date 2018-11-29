@@ -2,9 +2,9 @@
 <settings>
     <object>
         <label>Männlein</label>
-        <schleife>2</schleife>
+        <schleife>20</schleife>
         <processtime>4</processtime>
-        <speed>1</speed>
+        <speed>6</speed>
         <view>
             <image>object.png</image>
         </view>
@@ -21,8 +21,8 @@
     </object>
     <object>
         <label>Weiblein</label>
-        <schleife>2</schleife>
-        <processtime>1</processtime>
+        <schleife>20</schleife>
+        <processtime>5</processtime>
         <speed>5</speed>
         <view>
             <image>object.png</image>
@@ -39,8 +39,8 @@
     </object>
     <object>
         <label>Männlein</label>
-        <schleife>4</schleife>
-        <processtime>2</processtime>
+        <schleife>44</schleife>
+        <processtime>7</processtime>
         <speed>4</speed>
         <view>
             <image>object.png</image>
@@ -57,8 +57,8 @@
     </object>
     <object>
         <label>Weiblein</label>
-        <schleife>5</schleife>
-        <processtime>3</processtime>
+        <schleife>15</schleife>
+        <processtime>9</processtime>
         <speed>2</speed>
         <view>
             <image>object.png</image>
@@ -76,7 +76,7 @@
     <object>
         <label>Weiblein</label>
         <schleife>12</schleife>
-        <processtime>2</processtime>
+        <processtime>12</processtime>
         <speed>3</speed>
         <view>
             <image>object.png</image>
