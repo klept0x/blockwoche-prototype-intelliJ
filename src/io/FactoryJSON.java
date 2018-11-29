@@ -23,28 +23,28 @@ import java.util.concurrent.SynchronousQueue;
  * This is an abstract factory that creates instances
  * of actor types like objects, stations and their queues 
  * 
- * @author Jaeger, Schmidt
- * @version 2017-10-29
+ * @author Neumann
+ * @version 2018-11-26
  */
 public class FactoryJSON {
 
 	/**
-	 * the objects XML data file
+	 * the objects Json data file
 	 */
 	private static String theObjectDataFile = "json/object";
 
 	/**
-	 * the stations XML data file
+	 * the stations Json data file
 	 */
 	private static String theStationDataFile = "json/station";
 
 	/**
-	 * the start station XML data file
+	 * the start station Json data file
 	 */
 	private static String theStartStationDataFile = "json/startstation";
 
 	/**
-	 * the end station XML data file
+	 * the end station Json data file
 	 */
 	private static String theEndStationDataFile = "json/endstation";
 
@@ -78,7 +78,7 @@ public class FactoryJSON {
 	 */
 	private static void createStartStation() {
 		ArrayList<JSONObject> objects= new ArrayList<JSONObject>();
-
+		//lese Datei ein und erstelle ein String
 		try {
 			FileReader fr = new FileReader(theStartStationDataFile);
 			BufferedReader br = new BufferedReader(fr);
@@ -90,41 +90,44 @@ public class FactoryJSON {
 
 			JSONObject j =  new JSONObject(json);
 			JSONArray settings = j.getJSONArray("settings");
-			//System.out.println(settings.length()+"\n");
+
 			objects.add((JSONObject) settings.get(0));
 
 			JSONArray start_station = objects.get(0).getJSONArray("start_station");
-			//System.out.println(start_station.length());
+
 			JSONObject theStartStation = start_station.getJSONObject(0);
-			//System.out.println(theStartStation);
+
 			String label = theStartStation.getString("label");
 
+			//Location StartStation
 			XPOS_STARTSTATION=Integer.parseInt(theStartStation.getString("x_Position"));
 			YPOS_STARTSTATION= Integer.parseInt(theStartStation.getString("y_Position"));
 
-			//System.out.println(YPOS_STARTSTATION+" "+XPOS_STARTSTATION);
+
 
 			JSONArray view = theStartStation.getJSONArray("view");
 			JSONObject theview = view.getJSONObject(0);
-			//System.out.println(theview);
+
 			String image= theview.getString("image");
 
 			JSONArray inqueue = theStartStation.getJSONArray("inqueue");
 			JSONObject theInqueues = inqueue.getJSONObject(0);
 
+			//location Inqueue
 			int xInqueuePos= Integer.parseInt(theInqueues.getString("x_Position"));
 			int yInqueuePos= Integer.parseInt(theInqueues.getString("y_Position"));
-
+			//ertselle Inqueue
 			SynchronizedQueue theInqueue=SynchronizedQueue.createQueue(QueueViewText.class,xInqueuePos,yInqueuePos);
 
 			JSONArray outqueue = theStartStation.getJSONArray("outqueue");
 			JSONObject theOutqueues = outqueue.getJSONObject(0);
 
+			//location Outqueue
 			int xOutqueuePos= Integer.parseInt(theOutqueues.getString("x_Position"));
 			int yOutqueuePos= Integer.parseInt(theOutqueues.getString("y_Position"));
-
+			//erstelle Outqueue
 			SynchronizedQueue theOutqueue=SynchronizedQueue.createQueue(QueueViewText.class,xOutqueuePos,yOutqueuePos);
-
+			//erstelle StartStaion
 			StartStation.create(label,theInqueue,theOutqueue,XPOS_STARTSTATION,YPOS_STARTSTATION,image);
 
 		} catch (FileNotFoundException e) {
@@ -135,10 +138,11 @@ public class FactoryJSON {
 	}
 
 	/**
-	 * create some objects out of the XML file
+	 * create some objects out of the Json file
 	 */
 	private static void createObjects() {
 		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
+		//Datei einlesen
 		try {
 			FileReader fr = new FileReader(theObjectDataFile);
 			BufferedReader br = new BufferedReader(fr);
@@ -153,7 +157,7 @@ public class FactoryJSON {
 			objects.add((JSONObject) settings.get(0));
 
 			JSONArray object = objects.get(0).getJSONArray("object");
-			//System.out.println(object.length());
+
 			ArrayList<TheObject> allObjects= new ArrayList<TheObject>();
 
 			for(JSONObject theobject : toJSONList(object)){
@@ -175,13 +179,13 @@ public class FactoryJSON {
 				image = view.getString("image");
 
 				JSONArray theSequence = theobject.getJSONArray("sequence");
-				//System.out.println(theSequence.length());
+
 				ArrayList<String> stationsToGo= new ArrayList<String>();
 
 				for (int i = 0;i<theSequence.length();i++){
 					stationsToGo.add(theSequence.getString(i));
 				}
-				//System.out.println(stationsToGo.size());
+
 				for(int i = 0; i<schleife;i++) {
 					label=label+i;
 					TheObject.create(label, stationsToGo, processtime, speed, XPOS_STARTSTATION, YPOS_STARTSTATION, image);
@@ -196,13 +200,15 @@ public class FactoryJSON {
 	}
 
 	/**
-	 * create some process stations out of the XML file
+	 * create some process stations out of the JSon file
 	 */
 	private static void createProcessStations() {
 		ArrayList<JSONObject> station = new ArrayList<JSONObject>();
 		ArrayList<JSONObject> s = new ArrayList<JSONObject>();
-		try {
 
+		//lese Datei ein und erstelle ein string
+		try {
+			//lese die Datei ein und erstelle String
 			FileReader fr = new FileReader(theStationDataFile);
 			BufferedReader br = new BufferedReader(fr);
 			String json = "";
@@ -210,6 +216,8 @@ public class FactoryJSON {
 				json += line;
 			br.close();
 			System.out.println(json + "\n");
+
+
 			JSONObject j = new JSONObject(json);
 
 			JSONArray settings = j.getJSONArray("settings");
@@ -217,13 +225,14 @@ public class FactoryJSON {
 				station.add((JSONObject) i.next());
 			}
 			JSONArray stations = station.get(0).getJSONArray("station");
-			//System.out.println(stations.length());
+
 
 			for (Iterator i = stations.iterator(); i.hasNext(); ) {
 				s.add((JSONObject) i.next());
 			}
 			System.out.println(s.size());
 
+			//für jedes TheObject daten aus Datei lesen
 			for (JSONObject st : s) {
 
 				String label = null;
@@ -232,30 +241,36 @@ public class FactoryJSON {
 				int yPos = 0;
 				String image = null;
 
+				//label
 				label = (String) st.get("label");
-				//System.out.println(label);
+				//troughput
 				troughPut = Double.parseDouble(st.getString("troughput"));
-				//System.out.println(troughPut);
+				//location
 				xPos= Integer.parseInt(st.getString("x_Position"));
 				yPos=Integer.parseInt(st.getString("y_Position"));
+
 				JSONArray view = st.getJSONArray("view");
-				//System.out.println(view.length());
+
 				JSONObject theview = (JSONObject) view.get(0);
+				//image
 				image = theview.getString("image");
-				//System.out.println(image);
+
 				JSONArray inqueues = st.getJSONArray("inqueue");
-				//System.out.println(inqueues.length());
+
 				ArrayList<SynchronizedQueue>theInqueues= new ArrayList<SynchronizedQueue>();
+
+				//erstelle alle Inqueues
 				for(JSONObject inqueue : toJSONList(inqueues)) {
 					int xInqueuePos = Integer.parseInt(inqueue.getString("x_Position"));
-					//System.out.println(xInqueuePos);
+
 					int yInqueuePos = Integer.parseInt(inqueue.getString("y_Position"));
-					//System.out.println(yInqueuesPos);
+
 					 theInqueues.add(SynchronizedQueue.createQueue(QueueViewJPanel.class, xInqueuePos, yInqueuePos));
 				}
 				JSONArray outqueues = st.getJSONArray("outqueue");
-				//System.out.println(outqueue.length());
+
 				ArrayList<SynchronizedQueue>theOutqueues= new ArrayList<SynchronizedQueue>();
+				//erstelle alle Outqueues
 				for(JSONObject outqueue : toJSONList(outqueues)) {
 					int xOutqueuePos = Integer.parseInt(outqueue.getString("x_Position"));
 					int yOutqueuePos = Integer.parseInt(outqueue.getString("y_Position"));
@@ -279,7 +294,7 @@ public class FactoryJSON {
 	private static void createEndStation() {
 		ArrayList<JSONObject> objects= new ArrayList<JSONObject>();
 		try {
-
+			//lese die Datei ein und erstelle String
 			FileReader fr = new FileReader(theEndStationDataFile);
 			BufferedReader br = new BufferedReader(fr);
 			String json = "";
@@ -288,43 +303,52 @@ public class FactoryJSON {
 			br.close();
 			System.out.println(json + "\n");
 
+
 			JSONObject j =  new JSONObject(json);
 			JSONArray settings = j.getJSONArray("settings");
-			//System.out.println(settings.length()+"\n");
+
 			objects.add((JSONObject) settings.get(0));
 
 			JSONArray end_station = objects.get(0).getJSONArray("end_station");
-			//System.out.println(start_station.length());
+
 			JSONObject theEndStation = end_station.getJSONObject(0);
-			//System.out.println(theStartStation);
+
 			String label = theEndStation.getString("label");
 
+			// Location wird gespeichert
 			int xPos=Integer.parseInt(theEndStation.getString("x_Position"));
 			int yPos= Integer.parseInt(theEndStation.getString("y_Position"));
 
-			//System.out.println(xPos+" "+yPos);
+
 
 			JSONArray view = theEndStation.getJSONArray("view");
 			JSONObject theview = view.getJSONObject(0);
-			//System.out.println(theview);
+
+
+			//image wird gespeichert
 			String image= theview.getString("image");
 
 			JSONArray inqueue = theEndStation.getJSONArray("inqueue");
 			JSONObject theInqueues = inqueue.getJSONObject(0);
 
+			//location Inqueue wird gespeichert
 			int xInqueuePos= Integer.parseInt(theInqueues.getString("x_Position"));
 			int yInqueuePos= Integer.parseInt(theInqueues.getString("y_Position"));
 
+
+			//erstelle Inqueue
 			SynchronizedQueue theInqueue=SynchronizedQueue.createQueue(QueueViewText.class,xInqueuePos,yInqueuePos);
 
 			JSONArray outqueue = theEndStation.getJSONArray("outqueue");
 			JSONObject theOutqueues = outqueue.getJSONObject(0);
 
+			//location Outqueue wird gespeichert
 			int xOutqueuePos= Integer.parseInt(theOutqueues.getString("x_Position"));
 			int yOutqueuePos= Integer.parseInt(theOutqueues.getString("y_Position"));
 
+			//erstelle Outqueue
 			SynchronizedQueue theOutqueue=SynchronizedQueue.createQueue(QueueViewText.class,xOutqueuePos,yOutqueuePos);
-
+			//erstelle EndStation
 			EndStation.create(label,theInqueue,theOutqueue,xPos,yPos,image);
 
 		} catch (FileNotFoundException e) {
@@ -342,18 +366,19 @@ public class FactoryJSON {
 		return theList;
 	}
 
+	// setze Dateipfad
 	public static void setTheObjectDataFile(String theObjectDataFile) {
 		FactoryJSON.theObjectDataFile = theObjectDataFile;
 	}
-
+	// setze Dateipfad
 	public static void setTheStationDataFile(String theStationDataFile) {
 		FactoryJSON.theStationDataFile = theStationDataFile;
 	}
-
+	// setze Dateipfad
 	public static void setTheStartStationDataFile(String theStartStationDataFile) {
 		FactoryJSON.theStartStationDataFile = theStartStationDataFile;
 	}
-
+	// setze Dateipfad
 	public static void setTheEndStationDataFile(String theEndStationDataFile) {
 		FactoryJSON.theEndStationDataFile = theEndStationDataFile;
 	}
